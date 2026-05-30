@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const upload_1 = require("../middleware/upload");
+const borrower_controller_1 = require("../controllers/borrower.controller");
+const router = (0, express_1.Router)();
+router.use(auth_1.protect, (0, auth_1.authorize)('borrower'));
+router.post('/personal-details', borrower_controller_1.savePersonalDetails);
+router.post('/salary-slip', upload_1.upload.single('salarySlip'), upload_1.handleUploadError, borrower_controller_1.uploadSalarySlip);
+router.post('/loan-config', borrower_controller_1.saveLoanConfig);
+router.post('/apply', borrower_controller_1.applyForLoan);
+router.get('/application', borrower_controller_1.getMyApplication);
+exports.default = router;
